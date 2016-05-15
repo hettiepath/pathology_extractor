@@ -1,7 +1,7 @@
 # Pathology Extractor
 
 this is a general repository to extract information and combine
-information from given pathology progress notes and pathology report. 
+information from given pathology progress notes and pathology report.
 
 
 ### Run Stanford Core NLP
@@ -32,8 +32,37 @@ output = nlp.annotate(text,
     )
 ```
 
-### Dependencies
+
+### Run Name Entity Recognition
+
+Download NER model (here)[http://nlp.stanford.edu/software/CRF-NER.shtml#Download].
+We use `nltk` for NER, POS taggers. See related [issue](https://github.com/nltk/nltk/issues/1239))
+and [Stack Overflow post](http://stackoverflow.com/questions/13883277/stanford-parser-and-nltk/34112695#34112695)
+on how to install. First, download NER model that works
+
+```bash
+wget http://nlp.stanford.edu/software/stanford-ner-2015-04-20.zip
+```
+
+Add environment to `.bash_profile`,
+
+```bash
+export STANFORD_MODELS=<PATH_TO>/stanford-ner-2015-04-20/classifiers
+export CLASSPATH=<PATH_TO>/stanford-ner-2015-04-20/stanford-ner.jar
+```
+
+Try tagging the sentence. Here I use example from `nltk`
+
+```python
+from nltk.tag import StanfordNERTagger
+st = StanfordNERTagger('english.all.3class.distsim.crf.ser.gz')
+st.tag('Rami Eid is studying at Stony Brook University in NY'.split())
+```
+
+
+### Useful libraries
 
 - [pandas](http://pandas.pydata.org/)
-- [pyner](https://github.com/dat/pyner)
 - [nltk](http://www.nltk.org/)
+- [pyner](https://github.com/dat/pyner)
+- [pycorenlp](https://github.com/smilli/py-corenlp)
