@@ -8,7 +8,7 @@ taggers = ['english.all.3class.distsim.crf.ser.gz',
            'english.muc.7class.distsim.crf.ser.gz',
            'english.conll.4class.distsim.crf.ser.gz']
 st = StanfordNERTagger(taggers[0])
-w_tokenizer = WhitespaceTokenizer()
+
 
 def split(s):
     s_split = sent_tokenize(unidecode(s), language='english')
@@ -21,7 +21,7 @@ def tag(s):
     s_tokenize = word_tokenize(s)
     return st.tag(s_tokenize)
 
-def group_tag(s)
+def group_tag(s):
     ner_tag = st.tag(s)
     # group same tag together
     return None
