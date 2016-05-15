@@ -47,8 +47,8 @@ def group_tag(s):
     -------
     ner_tag_group: list of tuple, group NER tag output
 
-    Example
-    -------
+    Examples
+    --------
     >> group_tag('Rami Eid is studying at Stony Brook University in NY')
     """
     ner_tag = tag(s)

@@ -29,5 +29,3 @@ HER2_NEGATIVE = frozenset(['er/pr/her-2 negative', 'er/pr/her-2 -',
     'her 2 2- negative', 'her 2-positive'])
 
 SURGICAL = frozenset(['s/p mastectomy', 's/p hysterectomy'])
-
-ER/PR-positive HER 2-positive
