@@ -1,6 +1,6 @@
 # Created by https://www.gitignore.io/api/osx,python,ipythonnotebook,pycharm
 
-# protect any csv and txt files to get uploaded
+# protect csv files to get uploaded
 *.csv
 *.txt
 

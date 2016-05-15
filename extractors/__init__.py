@@ -1,1 +1,1 @@
-from .extractors import tag
+from .extractors import split, tag, group_tag
