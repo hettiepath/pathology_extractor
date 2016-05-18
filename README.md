@@ -59,6 +59,24 @@ st = StanfordNERTagger('english.all.3class.distsim.crf.ser.gz')
 st.tag('Rami Eid is studying at Stony Brook University in NY'.split())
 ```
 
+### Run Name Entity Recognition using PyNER
+
+More details can be found in Stack Overflow  [post](http://stackoverflow.com/questions/15722802/how-do-i-use-python-interface-of-stanford-nernamed-entity-recogniser).
+First, run `NERServer`, in this case in port 8080,
+
+```bash
+java -mx1000m -cp stanford-ner.jar edu.stanford.nlp.ie.NERServer -loadClassifier classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
+```
+
+Then in Python, we can use `ner` provided by [pyner](https://github.com/dat/pyner)
+in order to tag entity,
+
+```python
+import ner
+tagger = ner.SocketNER(host='localhost', port=8080)
+tagger.get_entities("University of California is located in California, United States")
+```
+
 
 ### Useful libraries
 
