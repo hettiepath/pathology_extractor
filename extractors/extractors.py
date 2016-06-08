@@ -12,7 +12,7 @@ from nltk.tag import StanfordNERTagger
 from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
     PROGESTERONE_POSITIVE, PROGESTERONE_NEGATIVE, \
     ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT, \
-    DATE_RELATED
+    DATE_RELATED, DATE_OF_BIRTH
 
 __all__ = ['split',
            'tag',
@@ -23,7 +23,9 @@ __all__ = ['split',
            'extract_estrogen',
            'tag_progesterone',
            'tag_estrogen_percent',
-           'tag_progesterone_percent']
+           'tag_progesterone_percent',
+           'str_to_date',
+           'extract_dob']
 
 taggers = ['english.all.3class.distsim.crf.ser.gz',
            'english.muc.7class.distsim.crf.ser.gz',
@@ -103,13 +105,16 @@ def group_tag_ner(s):
 
 def extract_time(s):
     """
-    Extract date time from report string
+    Extract date time from report string where we
+    consider that it contains date
 
     Parameters
     ----------
     s: str, input string that we want to extract time
 
-    TO DO: use Stanford NLP to extract time
+    Returns
+    -------
+    dates: list: list of dates found
     """
     s = s.lower()
     dates = list()
@@ -124,6 +129,28 @@ def extract_time(s):
         dates.append(tag['DATE'])
     return list(chain(*dates))
 
+def extract_time_str(s):
+    """
+    Extract date time date of birth pattern string
+
+    Parameters
+    ----------
+    s: str, input string that we want to extract time
+
+    Returns
+    -------
+    dt: date time format output of given string
+    """
+    s = s.lower()
+    dates = list()
+    patterns = [r'(\d+/\d+/\d+)', r'(\d+-\d+-\d+)']
+    for pattern in patterns:
+        match = re.findall(pattern, s)
+        dates.append(match)
+    dates = list(chain(*dates))
+    dt = str_to_date(dates[0]) # date-time format
+    return dt
+
 def extract_dob(s):
     """
     Extract date of birth from given string
@@ -134,7 +161,8 @@ def extract_dob(s):
         match = re.findall(pattern, s)
         if match:
             dob = match[0]
-    return dob
+    dob_dt = extract_time_str(dob)
+    return dob_dt
 
 def str_to_date(date):
     """
