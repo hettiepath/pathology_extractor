@@ -2,6 +2,11 @@
 
 DATE_RELATED = frozenset(['date:', 'date', 'on '])
 
+DATE_OF_BIRTH = frozenset(['birth date: \d+/\d+/\d+',
+    'date of birth: \d+/\d+/\d+',
+    'birth date: \d+-\d+-\d+',
+    'date of birth: \d+-\d+-\d+'])
+
 ESTROGEN_POSITIVE = frozenset(['er/pr+', 'er/pr +', 'er/pr was positive',
     'er/pr is positive', 'er/pr/her-2 positive', 'er/pr/her-2 +',
     'estrogen receptor positive', 'er/pr 70% positive',

@@ -124,6 +124,18 @@ def extract_time(s):
         dates.append(tag['DATE'])
     return list(chain(*dates))
 
+def extract_dob(s):
+    """
+    Extract date of birth from given string
+    """
+    dob = None
+    s = s.lower()
+    for pattern in DATE_OF_BIRTH:
+        match = re.findall(pattern, s)
+        if match:
+            dob = match[0]
+    return dob
+
 def str_to_date(date):
     """
     Interpret datetime string into datetime format
