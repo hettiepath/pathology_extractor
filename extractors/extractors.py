@@ -1,5 +1,7 @@
 import re
 import ner
+import datetime
+import dateutil
 import pandas as pd
 from itertools import groupby
 from operator import itemgetter
@@ -16,8 +18,9 @@ __all__ = ['split',
            'group_tag',
            'group_tag_ner',
            'extract_time',
+           'tag_estrogen',
            'extract_estrogen',
-           'extract_estrogen']
+           'tag_progesterone']
 
 taggers = ['english.all.3class.distsim.crf.ser.gz',
            'english.muc.7class.distsim.crf.ser.gz',
@@ -95,20 +98,19 @@ def group_tag_ner(s):
     """
     return ner_tagger.get_entities(s)
 
-
 def extract_time(s):
     """
     Extract date time from report string
 
     Parameters
     ----------
-    s: str, input string
+    s: str, input string that we want to extract time
 
     TO DO: use Stanford NLP to extract time
     """
     s = s.lower()
     dates = list()
-    patterns = [r'(\d+/\d+/\d+)', r'(\d+/\d+)']
+    patterns = [r'(\d+/\d+/\d+)', r'(\d+-\d+-\d+)', r'(\d+/\d+)']
     if any(d in s for d in DATE_RELATED):
         for pattern in patterns:
             match = re.findall(pattern, s)
@@ -116,9 +118,36 @@ def extract_time(s):
     # extend tagger using Stanford NER
     tag = group_tag_ner(s)
     if 'DATE' in tag.keys():
-        dates.extend(tag['DATE'])
+        dates.append(tag['DATE'])
     return list(chain(*dates))
 
+def str_to_date(date):
+    """
+    Interpret datetime string into datetime format
+
+    Parameters
+    ----------
+    s: str, input date time string to interpret
+
+    """
+    d = date.split('/')
+    if len(d) == 3:
+        month = int(d[0])
+        date = int(d[1])
+        year = int(d[2])
+        dt = datetime.datetime(year, month, date)
+    elif len(d) == 2:
+        year = datetime.datetime.now().year
+        month = int(d[0])
+        date = int(d[1])
+        dt = datetime.datetime(year, month, date)
+    else:
+        import dateutil
+        try:
+            dt = dateutil.parser.parse(date)
+        except:
+            dt = None
+    return dt
 
 def tag_estrogen(s):
     """
@@ -143,6 +172,28 @@ def tag_estrogen(s):
         dict_out = None
     return dict_out
 
+def tag_progesterone(s):
+    """
+    Extract estrogen related sentence
+    dictionary contains if estrogen receptor is positive or negative
+    and sentence
+    """
+    s_lower = s.lower()
+    pr_positive = False
+    pr_negative = False
+    for p in PROGESTERONE_POSITIVE:
+        if p in s_lower:
+            pr_positive = True
+    for p in PROGESTERONE_NEGATIVE:
+        if p in s_lower:
+            pr_negative = True
+    if pr_positive or pr_negative is True:
+        dict_out = {'pr_positive': pr_positive,
+                    'pr_negative': pr_negative,
+                    'sentence': s}
+    else:
+        dict_out = None
+    return dict_out
 
 def extract_estrogen(report):
     """
