@@ -1,5 +1,6 @@
 import re
 import ner
+import pandas as pd
 from itertools import groupby
 from operator import itemgetter
 from unidecode import unidecode
@@ -63,16 +64,22 @@ def group_tag(s):
     Examples
     --------
     >> group_tag('Rami Eid is studying at Stony Brook University in NY')
-
-    TO DO: return same format as group_tag_ner i.e. {'key': [, ,], 'key': [, ]}
     """
     ner_tag = tag(s)
     # group by consecutive key
-    ner_tag_group = list()
+    ner_group = list()
     for key, group in groupby(ner_tag, itemgetter(1)):
         entity = ' '.join([g[0] for g in group])
-        ner_tag_group.append(tuple((key, entity)))
-    return ner_tag_group
+        ner_group.append(tuple((key, entity)))
+    ner_group_sorted = sorted(ner_group, key=lambda x: x[0]) # sort key
+
+    # merge by key
+    groups = dict()
+    for key, group in groupby(ner_group_sorted, lambda x: x[0]):
+        g_ = list(g[1] for g in group)
+        groups[key] = g_
+    groups.pop("O", None)
+    return groups
 
 def group_tag_ner(s):
     """
