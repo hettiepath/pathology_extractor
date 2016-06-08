@@ -1,7 +1,18 @@
-# Pathology Extractor
+# Breast Cancer Pathology Extractor
 
 this is a general repository to extract information and combine
-information from given pathology progress notes and pathology report.
+information from given Breast cancer pathology progress notes and
+pathology report.
+
+
+## Report text to csv file
+
+The given dataset is separated by `|` and `||` symbol. We created `report2csv.py`
+in order to turn the report into `csv` format.
+
+```python
+python report2csv.py -i input_report.txt -o output_report.csv
+```
 
 
 ### Run Stanford Core NLP
@@ -62,20 +73,27 @@ st.tag('Rami Eid is studying at Stony Brook University in NY'.split())
 ### Run Name Entity Recognition using PyNER
 
 More details can be found in Stack Overflow  [post](http://stackoverflow.com/questions/15722802/how-do-i-use-python-interface-of-stanford-nernamed-entity-recogniser).
-First, run `NERServer`, in this case in port 8080,
+First, run `NERServer` e.g. for 7 classes prediction in port 8080,
 
 ```bash
 java -mx1000m -cp stanford-ner.jar edu.stanford.nlp.ie.NERServer -loadClassifier classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
 ```
 
-Then in Python, we can use `ner` provided by [pyner](https://github.com/dat/pyner)
-in order to tag entity,
+**Note** that you have run in `stanford-ner` folder. Then in Python, we can use
+`ner` provided by [pyner](https://github.com/dat/pyner) in order to tag entity,
 
 ```python
 import ner
 tagger = ner.SocketNER(host='localhost', port=8080)
 tagger.get_entities("University of California is located in California, United States")
 ```
+
+Here is [training classes](http://nlp.stanford.edu/software/CRF-NER.shtml)
+for Stanford NER:
+
+- 3 class:	Location, Person, Organization
+- 4 class:	Location, Person, Organization, Misc
+- 7 class:	Location, Person, Organization, Money, Percent, Date, Time
 
 
 ### Dependencies
