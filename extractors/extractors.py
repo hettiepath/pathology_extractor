@@ -11,6 +11,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.tag import StanfordNERTagger
 from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
     PROGESTERONE_POSITIVE, PROGESTERONE_NEGATIVE, \
+    ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT, \
     DATE_RELATED
 
 __all__ = ['split',
@@ -20,7 +21,9 @@ __all__ = ['split',
            'extract_time',
            'tag_estrogen',
            'extract_estrogen',
-           'tag_progesterone']
+           'tag_progesterone',
+           'tag_estrogen_percent',
+           'tag_progesterone_percent']
 
 taggers = ['english.all.3class.distsim.crf.ser.gz',
            'english.muc.7class.distsim.crf.ser.gz',
@@ -137,9 +140,14 @@ def str_to_date(date):
         year = int(d[2])
         dt = datetime.datetime(year, month, date)
     elif len(d) == 2:
-        year = datetime.datetime.now().year
-        month = int(d[0])
-        date = int(d[1])
+        if int(d[-1]) <= 12:
+            year = datetime.datetime.now().year
+            month = int(d[0])
+            date = int(d[1])
+        else:
+            month = int(d[0])
+            year = int(d[1])
+            date = 15 # pick up random date
         dt = datetime.datetime(year, month, date)
     else:
         import dateutil
@@ -215,3 +223,69 @@ def extract_estrogen(report):
         if dict_out is not None:
             s_collect.append(dict_out)
     return s_collect
+
+def tag_estrogen_percent(s):
+    """
+    Find what percentage of estrogen receptor
+
+    Parameters
+    ----------
+    s: str, input string
+
+    Returns
+    -------
+    percent: str, output percent string
+    """
+    s = s.lower()
+    percent = None
+    for ep in ESTROGEN_PERCENT:
+        percent_str = re.findall(ep, s)
+        if percent_str:
+            tag = ner_tagger.get_entities(percent_str[0])
+            if 'PERCENT' in tag.keys():
+                percent = tag['PERCENT'][0]
+    return percent
+
+def tag_progesterone_percent(s):
+    """
+    Find what percentage of progesterone receptor
+
+    Parameters
+    ----------
+    s: str, input string
+
+    Returns
+    -------
+    percent: str, output percent string
+    """
+    s = s.lower()
+    percent = None
+    for pp in PROGESTERONE_PERCENT:
+        percent_str = re.findall(pp, s)
+        if percent_str:
+            tag = ner_tagger.get_entities(percent_str[0])
+            if 'PERCENT' in tag.keys():
+                percent = tag['PERCENT'][0]
+    return percent
+
+def tag_her_percent(s):
+    """
+    Find what percentage of HER2 receptor
+
+    Parameters
+    ----------
+    s: str, input string
+
+    Returns
+    -------
+    percent: str, output percent string
+    """
+    s = s.lower()
+    percent = None
+    for pp in PROGESTERONE_PERCENT:
+        percent_str = re.findall(pp, s)
+        if percent_str:
+            tag = ner_tagger.get_entities(percent_str[0])
+            if 'PERCENT' in tag.keys():
+                percent = tag['PERCENT'][0]
+    return percent

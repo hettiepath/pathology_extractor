@@ -72,15 +72,15 @@ st.tag('Rami Eid is studying at Stony Brook University in NY'.split())
 
 ### Run Name Entity Recognition using PyNER
 
-More details can be found in Stack Overflow  [post](http://stackoverflow.com/questions/15722802/how-do-i-use-python-interface-of-stanford-nernamed-entity-recogniser).
+This is alternative to run NER (and it's much faster). More details can be found in Stack Overflow  [post](http://stackoverflow.com/questions/15722802/how-do-i-use-python-interface-of-stanford-nernamed-entity-recogniser).
 First, run `NERServer` e.g. for 7 classes prediction in port 8080,
 
 ```bash
 java -mx1000m -cp stanford-ner.jar edu.stanford.nlp.ie.NERServer -loadClassifier classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
 ```
 
-**Note** that you have run in `stanford-ner` folder. Then in Python, we can use
-`ner` provided by [pyner](https://github.com/dat/pyner) in order to tag entity,
+**Note** that you have run this command in `stanford-ner` folder. Then in Python,
+we can use `ner` provided by [pyner](https://github.com/dat/pyner) in order to tag entity,
 
 ```python
 import ner
