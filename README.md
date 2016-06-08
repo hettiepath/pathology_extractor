@@ -78,9 +78,10 @@ tagger.get_entities("University of California is located in California, United S
 ```
 
 
-### Useful libraries
+### Dependencies
 
 - [pandas](http://pandas.pydata.org/)
 - [nltk](http://www.nltk.org/)
 - [pyner](https://github.com/dat/pyner)
 - [pycorenlp](https://github.com/smilli/py-corenlp)
+- [unidecode](https://pypi.python.org/pypi/Unidecode)
