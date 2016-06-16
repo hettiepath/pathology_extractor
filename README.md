@@ -46,7 +46,7 @@ output = nlp.annotate(text,
 
 ### Run Name Entity Recognition
 
-Download NER model (here)[http://nlp.stanford.edu/software/CRF-NER.shtml#Download].
+Download NER model [here](http://nlp.stanford.edu/software/CRF-NER.shtml#Download).
 We use `nltk` for NER, POS taggers. See related [issue](https://github.com/nltk/nltk/issues/1239))
 and [Stack Overflow post](http://stackoverflow.com/questions/13883277/stanford-parser-and-nltk/34112695#34112695)
 on how to install. First, download NER model that works
