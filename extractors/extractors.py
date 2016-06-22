@@ -13,12 +13,14 @@ from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
     PROGESTERONE_POSITIVE, PROGESTERONE_NEGATIVE, \
     ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT, \
     DATE_RELATED, DATE_OF_BIRTH
+from .utils import *
 
-__all__ = ['split',
-           'tag',
+__all__ = ['tag',
+           'split',
            'group_tag',
            'group_tag_ner',
            'extract_time',
+           'extract_time_str',
            'tag_estrogen',
            'extract_estrogen',
            'tag_progesterone',
@@ -33,13 +35,6 @@ taggers = ['english.all.3class.distsim.crf.ser.gz',
 st = StanfordNERTagger(taggers[0]) # nltk tagger
 ner_tagger = ner.SocketNER(host='localhost', port=8080) # pyner tagger
 
-
-def split(s):
-    """
-    Simple split sentence
-    """
-    s_split = sent_tokenize(unidecode(s), language='english')
-    return s_split
 
 def tag(s):
     """
@@ -161,8 +156,74 @@ def extract_dob(s):
         match = re.findall(pattern, s)
         if match:
             dob = match[0]
-    dob_dt = extract_time_str(dob)
+    if dob is not None:
+        dob_dt = extract_time_str(dob)
+    else:
+        dob_dt = None
     return dob_dt
+
+def extract_dob_report(r):
+    """
+    Give full report, return potential date of birth of
+    the patient
+
+    Parameters
+    ----------
+    r: str, full report
+
+    Returns
+    -------
+    dob: datetime, date of birth in datetime format
+    """
+    sentences = split(r)
+    d = [extractors.extract_dob(s) for s in sentences]
+    dob_list = list()
+    for s in sentences:
+        dob = extractors.extract_dob(s)
+        if dob is not None:
+            dob_list.append(dob)
+    if len(dob_list) < 1:
+        date_of_birth = None
+    else:
+        date_of_birth = most_common(dob_list)
+    return date_of_birth
+
+def extract_age(s):
+    """
+    Extract age from given string, s
+    if found nothing, we will return None
+    """
+    age = None
+    for pattern in AGE:
+        match = re.findall(pattern, s)
+        if match:
+            age = match[0]
+    return age
+
+def extract_age_report(r):
+    """
+    Give full report, return potential date of birth of
+    the patient
+
+    Parameters
+    ----------
+    r: str, full report
+
+    Returns
+    -------
+    age: int, age of patient
+    """
+    sentences = extractors.split(r)
+    ages = [extract_age(s) for s in sentences]
+    ages_list = [age for age in ages if age is not None]
+    if ages_list:
+        age_ = most_common(ages_list)
+        age_int = re.findall('\d+', age_)
+        if age_int:
+            age_int = int(age_int[0])
+    else:
+        age_int = None
+    return age_int
 
 def str_to_date(date):
     """

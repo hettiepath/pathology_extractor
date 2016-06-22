@@ -1,5 +1,12 @@
 # set of words that typically show up in the report
 
+AGE = frozenset(['\d+ yo female', '\d+ yo woman',
+    '\d+yo female', '\d+yo woman',
+    '\d+ y/o female', '\d+ y/o woman',
+    '\d+y/o female', '\d+y/o woman',
+    '\d+ year old female', '\d+ year old woman',
+    '\d+-year-old woman', '\d+yo f'])
+
 DATE_RELATED = frozenset(['date:', 'date', 'on '])
 
 DATE_OF_BIRTH = frozenset(['birth date: \d+/\d+/\d+',

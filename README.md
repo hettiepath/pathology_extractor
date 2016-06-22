@@ -15,6 +15,14 @@ python report2csv.py -i input_report.txt -o output_report.csv
 ```
 
 
+## Extractors
+
+Here are few implemented functions to extract information from breast cancer reports
+
+- `extract_age_report()` - return approximate age of patient
+- `extract_dob_report()` - return date of birth from report if existed
+
+
 ### Run Stanford Core NLP
 
 Before using the code, we have to run and parse out the output.
@@ -103,3 +111,5 @@ for Stanford NER:
 - [pyner](https://github.com/dat/pyner)
 - [pycorenlp](https://github.com/smilli/py-corenlp)
 - [unidecode](https://pypi.python.org/pypi/Unidecode)
+
+To use library, see section on how to run `PyNER` first.
