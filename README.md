@@ -1,7 +1,7 @@
 # Breast Cancer Pathology Extractor
 
-this is a general repository to extract information and combine
-information from given Breast cancer pathology progress notes and
+This is a repository to extract and structure information
+from given Breast cancer pathology progress notes and 
 pathology report.
 
 
@@ -15,9 +15,21 @@ python report2csv.py -i input_report.txt -o output_report.csv
 ```
 
 
-## Extractors
+## Install and use extractors
 
-Here are few implemented functions to extract information from breast cancer reports
+Install using `setup.py`, running the following
+
+```
+$ python setup.py install
+```
+
+Here are few implemented functions available to extract information
+from breast cancer reports/ progress notes
+
+```python
+import extractor
+dob = extract_dob_report(report)
+```
 
 - `extract_age_report()` - return approximate age of patient
 - `extract_dob_report()` - return date of birth from report if existed
@@ -25,7 +37,7 @@ Here are few implemented functions to extract information from breast cancer rep
 
 ### Run StanfordCoreNLP backend
 
-In order to use extractor, we also incorporate `pyner` in order to help
+In order to use `extractor`, we also incorporate `pyner` in order to help
 doing name entity recognition task. See this [page](docs/stanford_nlp.md) to
 run `pyner` on the backend.
 
