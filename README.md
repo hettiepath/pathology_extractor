@@ -26,14 +26,19 @@ $ python setup.py install
 Here are few implemented functions available to extract information
 from breast cancer reports/ progress notes
 
-```python
-import extractor
-dob = extract_dob_report(report)
-```
-
 - `extract_time()` - return list of datetime for given string
 - `extract_age_report()` - return approximate age of patient
 - `extract_dob_report()` - return date of birth from report if existed
+
+
+### Examples
+
+Here is example on how to use `extractor` library
+
+```python
+import extractor
+dob = extractor.extract_dob_report(report)
+```
 
 
 ### Run StanfordCoreNLP backend
