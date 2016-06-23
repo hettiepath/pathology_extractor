@@ -5,9 +5,8 @@ import dateutil
 import pandas as pd
 from itertools import groupby
 from operator import itemgetter
-from unidecode import unidecode
 from itertools import chain
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import word_tokenize
 from nltk.tag import StanfordNERTagger
 from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
     PROGESTERONE_POSITIVE, PROGESTERONE_NEGATIVE, \

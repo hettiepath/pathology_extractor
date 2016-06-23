@@ -1,3 +1,6 @@
+from unidecode import unidecode
+from nltk.tokenize import sent_tokenize
+
 def split(s):
     """
     Simple split sentence
