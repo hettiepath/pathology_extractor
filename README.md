@@ -1,7 +1,7 @@
 # Breast Cancer Pathology Extractor
 
 This is a repository to extract and structure information
-from given Breast cancer pathology progress notes and 
+from given Breast cancer pathology progress notes and
 pathology report.
 
 
@@ -31,6 +31,7 @@ import extractor
 dob = extract_dob_report(report)
 ```
 
+- `extract_time()` - return list of datetime for given string
 - `extract_age_report()` - return approximate age of patient
 - `extract_dob_report()` - return date of birth from report if existed
 

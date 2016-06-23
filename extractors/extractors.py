@@ -99,7 +99,7 @@ def group_tag_ner(s):
 
 def extract_time(s):
     """
-    Extract date time from report string where we
+    Extract date time from given string where we
     consider that it contains date
 
     Parameters
@@ -121,7 +121,12 @@ def extract_time(s):
     tag = group_tag_ner(s)
     if 'DATE' in tag.keys():
         dates.append(tag['DATE'])
-    return list(chain(*dates))
+    dates = list(chain(*dates)) # flatten list
+    dates_dt = list()
+    if len(dates) >= 1:
+        dates_rm = remove_partial_duplicate(dates)
+        dates_dt = list(map(str_to_date, dates_rm)) # datetime format
+    return dates_dt
 
 def extract_time_str(s):
     """
@@ -237,7 +242,7 @@ def str_to_date(date):
     if len(d) == 3:
         month = int(d[0])
         date = int(d[1])
-        year = int(d[2])
+        year = check_year(int(d[2]))
         dt = datetime.datetime(year, month, date)
     elif len(d) == 2:
         if int(d[-1]) <= 12:
@@ -246,7 +251,7 @@ def str_to_date(date):
             date = int(d[1])
         else:
             month = int(d[0])
-            year = int(d[1])
+            year = check_year(int(d[1]))
             date = 15 # pick up random date
         dt = datetime.datetime(year, month, date)
     else:

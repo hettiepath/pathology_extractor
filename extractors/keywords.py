@@ -7,7 +7,8 @@ AGE = frozenset(['\d+ yo female', '\d+ yo woman',
     '\d+ year old female', '\d+ year old woman',
     '\d+-year-old woman', '\d+yo f'])
 
-DATE_RELATED = frozenset(['date:', 'date', 'on '])
+DATE_RELATED = frozenset(['date:', 'date', 'on ',
+    'date of scan:'])
 
 DATE_OF_BIRTH = frozenset(['birth date: \d+/\d+/\d+',
     'date of birth: \d+/\d+/\d+',
