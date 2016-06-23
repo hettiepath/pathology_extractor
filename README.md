@@ -26,6 +26,7 @@ $ python setup.py install
 Here are few implemented functions available to extract information
 from breast cancer reports/ progress notes
 
+- `split` - split report into list of sentences
 - `extract_time()` - return list of datetime for given string
 - `extract_age_report()` - return approximate age of patient
 - `extract_dob_report()` - return date of birth from report if existed
