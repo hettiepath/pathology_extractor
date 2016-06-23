@@ -15,6 +15,20 @@ def most_common(lst):
     """
     return max(set(lst), key=lst.count)
 
+def remove_int(ls):
+    """
+    remove plain integer element from list, ls
+    """
+    ls_rm = list()
+    for s in ls:
+        try:
+            s = int(s)
+            if isinstance(s, int):
+                continue
+        except:
+            ls_rm.append(s)
+    return ls_rm
+
 def remove_duplicate(seq):
     """
     remove duplicate string in list while preserving order
@@ -31,6 +45,7 @@ def remove_partial_duplicate(ls):
         http://stackoverflow.com/questions/37981029/remove-element-from-list-if-part-of-string-is-duplicate
     """
     ls = remove_duplicate(ls) # merge duplicate string in list first
+    ls = remove_int(ls)
     ls_out = list()
     for x in ls:
         if x not in ls_out and (not any([x in item for item in ls_out])):
