@@ -120,6 +120,7 @@ def extract_time(s):
     if len(dates) >= 1:
         dates_rm = remove_partial_duplicate(dates)
         dates_dt = list(map(str_to_date, dates_rm)) # datetime format
+    dates_dt = [dt for dt in dates_dt if dt is not None] # remove
     return dates_dt
 
 def extract_time_str(s):
