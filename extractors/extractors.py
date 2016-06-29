@@ -275,7 +275,8 @@ def tag_estrogen(s):
     if er_positive or er_negative is True:
         dict_out = {'er_positive': er_positive,
                     'er_negative': er_negative,
-                    'sentence': s}
+                    'sentence': s,
+                    'percent': tag_estrogen_percent(s)}
     else:
         dict_out = None
     return dict_out
@@ -298,31 +299,11 @@ def tag_progesterone(s):
     if pr_positive or pr_negative is True:
         dict_out = {'pr_positive': pr_positive,
                     'pr_negative': pr_negative,
-                    'sentence': s}
+                    'sentence': s,
+                    'percent': tag_progesterone_percent(s)}
     else:
         dict_out = None
     return dict_out
-
-def extract_estrogen(report):
-    """
-    Extract Estrogen Receptors feature and sentences related
-
-    Parameters
-    ----------
-    report: str, input string of report or progress notes
-
-    Returns
-    -------
-    s_collect: list of dictionary contains status of estrogen receptor,
-        sentences related to estrogen receptor
-    """
-    sentences = split(report)
-    s_collect = list() # list of collect sentences
-    for s in sentences:
-        dict_out = tag_estrogen(s)
-        if dict_out is not None:
-            s_collect.append(dict_out)
-    return s_collect
 
 def tag_estrogen_percent(s):
     """
@@ -389,3 +370,24 @@ def tag_her_percent(s):
             if 'PERCENT' in tag.keys():
                 percent = tag['PERCENT'][0]
     return percent
+
+def extract_estrogen(report):
+    """
+    Extract Estrogen Receptors feature and sentences related
+
+    Parameters
+    ----------
+    report: str, input string of report or progress notes
+
+    Returns
+    -------
+    s_collect: list of dictionary contains status of estrogen receptor,
+        sentences related to estrogen receptor
+    """
+    sentences = split(report)
+    s_collect = list() # list of collect sentences
+    for s in sentences:
+        dict_out = tag_estrogen(s)
+        if dict_out is not None:
+            s_collect.append(dict_out)
+    return s_collect
