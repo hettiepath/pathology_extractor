@@ -14,18 +14,12 @@ from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
     DATE_RELATED, DATE_OF_BIRTH, AGE
 from .utils import *
 
-__all__ = ['tag',
-           'split',
+__all__ = ['split',
            'group_tag',
            'group_tag_ner',
-           'extract_time',
-           'extract_time_str',
-           'tag_estrogen',
-           'extract_estrogen',
-           'tag_progesterone',
-           'tag_estrogen_percent',
-           'tag_progesterone_percent',
            'str_to_date',
+           'extract_time',
+           'extract_estrogen',
            'extract_dob']
 
 taggers = ['english.all.3class.distsim.crf.ser.gz',

@@ -5,6 +5,14 @@ from nltk.tokenize import sent_tokenize
 def split(s):
     """
     Split string into list of sentences
+
+    Parameters
+    ----------
+    s: str, input string
+
+    Returns
+    -------
+    s_split: list of split sentences
     """
     s_split = sent_tokenize(unidecode(s), language='english')
     return s_split

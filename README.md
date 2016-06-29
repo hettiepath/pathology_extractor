@@ -24,12 +24,19 @@ $ python setup.py install
 ```
 
 Here are few implemented functions available to extract information
-from breast cancer reports/ progress notes
+from breast cancer reports or progress notes
 
-- `split` - split report into list of sentences
+- `split()` - split report into list of sentences
 - `extract_time()` - return list of datetime for given string
 - `extract_age_report()` - return approximate age of patient
 - `extract_dob_report()` - return date of birth from report if existed
+
+
+**Run StanfordCoreNLP backend**
+
+In order to use `extractor`, we also incorporate `pyner` in order to help
+doing name entity recognition task. See this [page](docs/stanford_nlp.md) to
+run `pyner` on the backend.
 
 
 ### Examples
@@ -40,13 +47,6 @@ Here is example on how to use `extractor` library
 import extractor
 dob = extractor.extract_dob_report(report)
 ```
-
-
-### Run StanfordCoreNLP backend
-
-In order to use `extractor`, we also incorporate `pyner` in order to help
-doing name entity recognition task. See this [page](docs/stanford_nlp.md) to
-run `pyner` on the backend.
 
 
 ### Dependencies
