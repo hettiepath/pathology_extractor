@@ -1,6 +1,8 @@
+import re
 import datetime
 from unidecode import unidecode
 from nltk.tokenize import sent_tokenize
+from .keywords import ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT
 
 def split(s):
     """

@@ -30,7 +30,9 @@ from breast cancer reports or progress notes
 - `extract_time()` - return list of datetime for given string
 - `extract_age_report()` - return approximate age of patient
 - `extract_dob_report()` - return date of birth from report if existed
-
+- `extract_estrogen()` - return list of estrogen receptor and its value from report
+- `extract_progesterone()` - return list of progesterone receptor and its value from report
+- `extract_her2()` - return list of HER2 receptor and its value from report
 
 **Run StanfordCoreNLP backend**
 

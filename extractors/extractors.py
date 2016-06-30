@@ -21,6 +21,8 @@ __all__ = ['split',
            'str_to_date',
            'extract_time',
            'extract_estrogen',
+           'extract_progesterone',
+           'extract_her2',
            'extract_age_report',
            'extract_dob']
 
@@ -322,7 +324,7 @@ def tag_her(s):
     for h in HER2_NEGATIVE:
         if h in s_lower:
             her_negative = True
-    if pr_positive or pr_negative is True:
+    if her_positive or her_negative is True:
         dict_out = {'her_positive': her_positive,
                     'her_negative': her_negative,
                     'sentence': s,
@@ -375,7 +377,7 @@ def extract_progesterone(report):
             s_collect.append(dict_out)
     return s_collect
 
-def extract_her(report):
+def extract_her2(report):
     """
     Extract HER2 Receptors feature and sentences related
     from the report
