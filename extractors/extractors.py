@@ -181,10 +181,10 @@ def extract_dob_report(r):
     dob: datetime, date of birth in datetime format
     """
     sentences = split(r)
-    d = [extractors.extract_dob(s) for s in sentences]
+    d = [extract_dob(s) for s in sentences]
     dob_list = list()
     for s in sentences:
-        dob = extractors.extract_dob(s)
+        dob = extract_dob(s)
         if dob is not None:
             dob_list.append(dob)
     if len(dob_list) < 1:
@@ -218,7 +218,7 @@ def extract_age_report(r):
     -------
     age: int, age of patient
     """
-    sentences = extractors.split(r)
+    sentences = split(r)
     ages = [extract_age(s) for s in sentences]
     ages_list = [age for age in ages if age is not None]
     if ages_list:
