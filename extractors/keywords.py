@@ -79,3 +79,7 @@ HER2_PERCENT = frozenset(['her-2 \w+ \(\d+%\)', 'her-2 \(\d+%\)',
     'her-2 receptor \w+ \d+%', 'her-2 receptor \(\d+%\)',
     '\d+% her-2', '\d+ percent her-2',
     'her2 \w+ \(\d+%\)', 'her2/neu \w+ \(\d+%\)'])
+
+# last menstrual period
+LMP = frozenset(['lmp:\d+/\d+/\d+', 'lmp: \d+/\d+/\d+',
+    'menopause'])

@@ -252,7 +252,10 @@ def str_to_date(date):
             month = int(d[0])
             year = check_year(int(d[1]))
             date = 15 # pick up random date
-        dt = datetime.datetime(year, month, date)
+        try:
+            dt = datetime.datetime(year, month, date)
+        except:
+            dt = None
     else:
         import dateutil
         try:

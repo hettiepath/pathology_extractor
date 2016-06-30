@@ -3,6 +3,9 @@ import datetime
 from unidecode import unidecode
 from nltk.tokenize import sent_tokenize
 from .keywords import ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT
+import ner
+
+ner_tagger = ner.SocketNER(host='localhost', port=8080) # pyner tagger
 
 def split(s):
     """
