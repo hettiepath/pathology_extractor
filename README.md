@@ -33,6 +33,7 @@ from breast cancer reports or progress notes
 - `extract_estrogen()` - return list of estrogen receptor and its value from report
 - `extract_progesterone()` - return list of progesterone receptor and its value from report
 - `extract_her2()` - return list of HER2 receptor and its value from report
+- `extract_dcis()` - return list of DCIS related sentences and its value
 
 **Run StanfordCoreNLP backend**
 

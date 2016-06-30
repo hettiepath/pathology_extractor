@@ -12,6 +12,7 @@ from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
     PROGESTERONE_POSITIVE, PROGESTERONE_NEGATIVE, \
     HER2_POSITIVE, HER2_NEGATIVE, \
     ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT, \
+    DCIS, DCIS_PERCENT, \
     DATE_RELATED, DATE_OF_BIRTH, AGE
 from .utils import *
 
@@ -23,6 +24,7 @@ __all__ = ['split',
            'extract_estrogen',
            'extract_progesterone',
            'extract_her2',
+           'extract_dcis',
            'extract_age_report',
            'extract_dob']
 
@@ -336,6 +338,16 @@ def tag_her(s):
         dict_out = None
     return dict_out
 
+def tag_dcis(s):
+    s_lower = s.lower()
+    for d in DCIS:
+        if d in s_lower:
+            dict_out = {'sentence': s,
+                        'percent': tag_dcis_percent(s)}
+        else:
+            dict_out = None
+    return dict_out
+
 def extract_estrogen(report):
     """
     Extract Estrogen Receptors feature and sentences related
@@ -375,7 +387,7 @@ def extract_progesterone(report):
     sentences = split(report)
     s_collect = list() # list of collect sentences
     for s in sentences:
-        dict_out = tag_estrogen(s)
+        dict_out = tag_progesterone(s)
         if dict_out is not None:
             s_collect.append(dict_out)
     return s_collect
@@ -398,6 +410,26 @@ def extract_her2(report):
     s_collect = list() # list of collect sentences
     for s in sentences:
         dict_out = tag_her(s)
+        if dict_out is not None:
+            s_collect.append(dict_out)
+    return s_collect
+
+def extract_dcis(report):
+    """
+    Extract Ductal carcinoma in situ (DCIS) related information
+
+    Parameters
+    ----------
+    report: str, input string of report or progress notes
+
+    Returns
+    -------
+    s_collect: list of dictionary with DCIS keyword
+    """
+    sentences = split(report)
+    s_collect = list() # list of collect sentences
+    for s in sentences:
+        dict_out = tag_dcis(s)
         if dict_out is not None:
             s_collect.append(dict_out)
     return s_collect

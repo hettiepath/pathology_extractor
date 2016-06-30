@@ -83,3 +83,7 @@ HER2_PERCENT = frozenset(['her-2 \w+ \(\d+%\)', 'her-2 \(\d+%\)',
 # last menstrual period
 LMP = frozenset(['lmp:\d+/\d+/\d+', 'lmp: \d+/\d+/\d+',
     'menopause'])
+
+DCIS = frozenset(['dcis'])
+
+DCIS_PERCENT = frozenset(['dcis is \d+ percent', 'dcis'])
