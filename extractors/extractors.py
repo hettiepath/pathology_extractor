@@ -10,6 +10,7 @@ from nltk.tokenize import word_tokenize
 from nltk.tag import StanfordNERTagger
 from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
     PROGESTERONE_POSITIVE, PROGESTERONE_NEGATIVE, \
+    HER2_POSITIVE, HER2_NEGATIVE, \
     ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT, \
     DATE_RELATED, DATE_OF_BIRTH, AGE
 from .utils import *
@@ -20,6 +21,7 @@ __all__ = ['split',
            'str_to_date',
            'extract_time',
            'extract_estrogen',
+           'extract_age_report',
            'extract_dob']
 
 taggers = ['english.all.3class.distsim.crf.ser.gz',
@@ -206,7 +208,7 @@ def extract_age_report(r):
 
     Parameters
     ----------
-    r: str, full report
+    r: str, string from full report
 
     Returns
     -------
@@ -305,75 +307,34 @@ def tag_progesterone(s):
         dict_out = None
     return dict_out
 
-def tag_estrogen_percent(s):
+def tag_her(s):
     """
-    Find what percentage of estrogen receptor
-
-    Parameters
-    ----------
-    s: str, input string
-
-    Returns
-    -------
-    percent: str, output percent string
+    Extract HER2 related sentence
+    dictionary contains if HER2 receptor is positive or negative
+    and its sentence
     """
-    s = s.lower()
-    percent = None
-    for ep in ESTROGEN_PERCENT:
-        percent_str = re.findall(ep, s)
-        if percent_str:
-            tag = ner_tagger.get_entities(percent_str[0])
-            if 'PERCENT' in tag.keys():
-                percent = tag['PERCENT'][0]
-    return percent
-
-def tag_progesterone_percent(s):
-    """
-    Find what percentage of progesterone receptor
-
-    Parameters
-    ----------
-    s: str, input string
-
-    Returns
-    -------
-    percent: str, output percent string
-    """
-    s = s.lower()
-    percent = None
-    for pp in PROGESTERONE_PERCENT:
-        percent_str = re.findall(pp, s)
-        if percent_str:
-            tag = ner_tagger.get_entities(percent_str[0])
-            if 'PERCENT' in tag.keys():
-                percent = tag['PERCENT'][0]
-    return percent
-
-def tag_her_percent(s):
-    """
-    Find what percentage of HER2 receptor
-
-    Parameters
-    ----------
-    s: str, input string
-
-    Returns
-    -------
-    percent: str, output percent string
-    """
-    s = s.lower()
-    percent = None
-    for pp in PROGESTERONE_PERCENT:
-        percent_str = re.findall(pp, s)
-        if percent_str:
-            tag = ner_tagger.get_entities(percent_str[0])
-            if 'PERCENT' in tag.keys():
-                percent = tag['PERCENT'][0]
-    return percent
+    s_lower = s.lower()
+    her_positive = False
+    her_negative = False
+    for h in HER2_POSITIVE:
+        if h in s_lower:
+            her_positive = True
+    for h in HER2_NEGATIVE:
+        if h in s_lower:
+            her_negative = True
+    if pr_positive or pr_negative is True:
+        dict_out = {'her_positive': her_positive,
+                    'her_negative': her_negative,
+                    'sentence': s,
+                    'percent': tag_her_percent(s)}
+    else:
+        dict_out = None
+    return dict_out
 
 def extract_estrogen(report):
     """
     Extract Estrogen Receptors feature and sentences related
+    from the report
 
     Parameters
     ----------
@@ -388,6 +349,50 @@ def extract_estrogen(report):
     s_collect = list() # list of collect sentences
     for s in sentences:
         dict_out = tag_estrogen(s)
+        if dict_out is not None:
+            s_collect.append(dict_out)
+    return s_collect
+
+def extract_progesterone(report):
+    """
+    Extract Progesterone Receptors feature and sentences related
+    from the report
+
+    Parameters
+    ----------
+    report: str, input string of report or progress notes
+
+    Returns
+    -------
+    s_collect: list of dictionary contains status of estrogen receptor,
+        sentences related to estrogen receptor
+    """
+    sentences = split(report)
+    s_collect = list() # list of collect sentences
+    for s in sentences:
+        dict_out = tag_estrogen(s)
+        if dict_out is not None:
+            s_collect.append(dict_out)
+    return s_collect
+
+def extract_her(report):
+    """
+    Extract HER2 Receptors feature and sentences related
+    from the report
+
+    Parameters
+    ----------
+    report: str, input string of report or progress notes
+
+    Returns
+    -------
+    s_collect: list of dictionary contains status of HER2 receptor,
+        sentences related to HER2 receptor
+    """
+    sentences = split(report)
+    s_collect = list() # list of collect sentences
+    for s in sentences:
+        dict_out = tag_her(s)
         if dict_out is not None:
             s_collect.append(dict_out)
     return s_collect
