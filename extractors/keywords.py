@@ -66,13 +66,15 @@ ESTROGEN_PERCENT = frozenset(['er \w+ \(\d+%\)', 'er \(\d+%\)',
     'er \w+ \d+%', 'estrogen receptor \w+ \(\d+%\)',
     'estrogen receptor \w+ \d+%', 'estrogen receptor \(\d+%\)',
     '\d+% er', '\d+ percent er',
-    'er \w+ \d+ percent', 'er \d+ percent'])
+    'er \w+ \d+ percent', 'er \d+ percent',
+    'er: negative \(\d+%\)', 'er: positive \(\d+%\)'])
 
 PROGESTERONE_PERCENT = frozenset(['pr \w+ \(\d+%\)', 'pr \(\d+%\)',
     'pr \w+ \d+%', 'progesterone receptor \w+ \(\d+%\)',
     'progesterone receptor \w+ \d+%', 'progesterone receptor \(\d+%\)',
     '\d+% pr', '\d+ percent pr',
-    'pr \w+ \d+ percent', 'pr \d+ percent'])
+    'pr \w+ \d+ percent', 'pr \d+ percent',
+    'pr: negative \(\d+%\)', 'pr: positive \(\d+%\)'])
 
 HER2_PERCENT = frozenset(['her-2 \w+ \(\d+%\)', 'her-2 \(\d+%\)',
     'her-2 \w+ \d+%', 'her-2 receptor \w+ \(\d+%\)',
