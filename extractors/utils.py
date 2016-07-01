@@ -81,29 +81,7 @@ def check_year(year):
         year = year
     return year
 
-def tag_estrogen_percent(s):
-    """
-    Find what percentage of estrogen receptor
-
-    Parameters
-    ----------
-    s: str, input string
-
-    Returns
-    -------
-    percent: str, output percent string
-    """
-    s = s.lower()
-    percent = None
-    for ep in ESTROGEN_PERCENT:
-        percent_str = re.findall(ep, s)
-        if percent_str:
-            tag = ner_tagger.get_entities(percent_str[0])
-            if 'PERCENT' in tag.keys():
-                percent = tag['PERCENT'][0]
-    return percent
-
-def tag_progesterone_percent(s):
+def tag_percent(s, percent_pattern):
     """
     Find what percentage of progesterone receptor
 
@@ -117,52 +95,8 @@ def tag_progesterone_percent(s):
     """
     s = s.lower()
     percent = None
-    for pp in PROGESTERONE_PERCENT:
+    for pp in percent_pattern:
         percent_str = re.findall(pp, s)
-        if percent_str:
-            tag = ner_tagger.get_entities(percent_str[0])
-            if 'PERCENT' in tag.keys():
-                percent = tag['PERCENT'][0]
-    return percent
-
-def tag_her_percent(s):
-    """
-    Find what percentage of HER2 receptor
-
-    Parameters
-    ----------
-    s: str, input string
-
-    Returns
-    -------
-    percent: str, output percent string
-    """
-    s = s.lower()
-    percent = None
-    for pp in PROGESTERONE_PERCENT:
-        percent_str = re.findall(pp, s)
-        if percent_str:
-            tag = ner_tagger.get_entities(percent_str[0])
-            if 'PERCENT' in tag.keys():
-                percent = tag['PERCENT'][0]
-    return percent
-
-def tag_dcis_percent(s):
-    """
-    Find what percentage of Ductal carcinoma in situ (DCIS)
-
-    Parameters
-    ----------
-    s: str, input string
-
-    Returns
-    -------
-    percent: str, output percent string
-    """
-    s = s.lower()
-    percent = None
-    for ep in ESTROGEN_PERCENT:
-        percent_str = re.findall(ep, s)
         if percent_str:
             tag = ner_tagger.get_entities(percent_str[0])
             if 'PERCENT' in tag.keys():

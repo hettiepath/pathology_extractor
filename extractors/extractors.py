@@ -8,12 +8,7 @@ from operator import itemgetter
 from itertools import chain
 from nltk.tokenize import word_tokenize
 from nltk.tag import StanfordNERTagger
-from .keywords import ESTROGEN_POSITIVE, ESTROGEN_NEGATIVE, \
-    PROGESTERONE_POSITIVE, PROGESTERONE_NEGATIVE, \
-    HER2_POSITIVE, HER2_NEGATIVE, \
-    ESTROGEN_PERCENT, PROGESTERONE_PERCENT, HER2_PERCENT, \
-    DCIS, DCIS_PERCENT, \
-    DATE_RELATED, DATE_OF_BIRTH, AGE
+from .keywords import *
 from .utils import *
 
 __all__ = ['split',
@@ -25,6 +20,7 @@ __all__ = ['split',
            'extract_progesterone',
            'extract_her2',
            'extract_dcis',
+           'extract_p53',
            'extract_age_report',
            'extract_dob']
 
@@ -285,7 +281,7 @@ def tag_estrogen(s):
         dict_out = {'er_positive': er_positive,
                     'er_negative': er_negative,
                     'sentence': s,
-                    'percent': tag_estrogen_percent(s)}
+                    'percent': tag_percent(s, ESTROGEN_PERCENT)}
     else:
         dict_out = None
     return dict_out
@@ -309,7 +305,7 @@ def tag_progesterone(s):
         dict_out = {'pr_positive': pr_positive,
                     'pr_negative': pr_negative,
                     'sentence': s,
-                    'percent': tag_progesterone_percent(s)}
+                    'percent': tag_percent(s, PROGESTERONE_PERCENT)}
     else:
         dict_out = None
     return dict_out
@@ -333,7 +329,7 @@ def tag_her(s):
         dict_out = {'her_positive': her_positive,
                     'her_negative': her_negative,
                     'sentence': s,
-                    'percent': tag_her_percent(s)}
+                    'percent': tag_percent(s, HER2_PERCENT)}
     else:
         dict_out = None
     return dict_out
@@ -343,10 +339,27 @@ def tag_dcis(s):
     for d in DCIS:
         if d in s_lower:
             dict_out = {'sentence': s,
-                        'percent': tag_dcis_percent(s)}
+                        'percent': tag_percent(s, DCIS_PERCENT)}
         else:
             dict_out = None
     return dict_out
+
+def tag_p53(s):
+    s_lower = s.lower()
+    p53_positive = False
+    p53_negative = False
+    for p in P53_POSITIVE:
+        if p in s_lower:
+            p53_positive = True
+    for p in P53_NEGATIVE:
+        if p in s_lower:
+            p53_negative = True
+    if p53_positive or p53_negative is True:
+        dict_out = {'p53_positive': p53_positive,
+                    'p53_negative': p53_negative,
+                    'sentence': s,
+                    'percent': tag_percent(s, P53_PERCENT)}
+
 
 def extract_estrogen(report):
     """
@@ -430,6 +443,27 @@ def extract_dcis(report):
     s_collect = list() # list of collect sentences
     for s in sentences:
         dict_out = tag_dcis(s)
+        if dict_out is not None:
+            s_collect.append(dict_out)
+    return s_collect
+
+def extract_p53(report):
+    """
+    Extract P53 Receptors feature and sentences related
+    from the report
+
+    Parameters
+    ----------
+    report: str, input string of report or progress notes
+
+    Returns
+    -------
+    s_collect: list of dictionary contains status of P53 receptor
+    """
+    sentences = split(report)
+    s_collect = list() # list of collect sentences
+    for s in sentences:
+        dict_out = tag_p53(s)
         if dict_out is not None:
             s_collect.append(dict_out)
     return s_collect

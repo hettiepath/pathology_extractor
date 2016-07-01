@@ -89,3 +89,14 @@ LMP = frozenset(['lmp:\d+/\d+/\d+', 'lmp: \d+/\d+/\d+',
 DCIS = frozenset(['dcis'])
 
 DCIS_PERCENT = frozenset(['dcis is \d+ percent', 'dcis'])
+
+P53_POSITIVE = frozenset(['p53: positive', 'p53 positive',
+    'p53 is positive'])
+
+P53_NEGATIVE = frozenset(['p53: negative', 'p53 negative',
+    'p53 is negative'])
+
+P53_PERCENT = frozenset(['p53 \w+ \(\d+%\)', 'p53 \(\d+%\)',
+    'p53 \w+ \d+%', '\d+% p53', '\d+ percent p53',
+    'p53 \w+ \d+ percent', 'p53 \d+ percent',
+    'p53: negative \(\d+%\)', 'p53: positive \(\d+%\)'])
