@@ -239,7 +239,7 @@ def str_to_date(date):
     if len(d) == 3:
         month = int(d[0])
         date = int(d[1])
-        year = check_year(int(d[2]))
+        year = check_year(d[2])
         dt = datetime.datetime(year, month, date)
     elif len(d) == 2:
         if int(d[-1]) <= 12:
@@ -248,7 +248,7 @@ def str_to_date(date):
             date = int(d[1])
         else:
             month = int(d[0])
-            year = check_year(int(d[1]))
+            year = check_year(d[1])
             date = 15 # pick up random date
         try:
             dt = datetime.datetime(year, month, date)

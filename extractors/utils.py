@@ -70,6 +70,9 @@ def check_year(year):
     """
     Utility function to check if year is in right format
     """
+    year = str(year)
+    if len(year.split(' ')) >= 2:
+        year = year.split(' ')[0]
     year = int(year)
     if year >= 16 and year <= 99:
         year = int('19' + str(year))
